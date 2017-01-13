@@ -1,0 +1,58 @@
+<!-- Pull in Vue.js -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+<!-- Template for the second dropdown component -->
+<script id="filtered-items" type="text/x-template">
+  <select>
+    <option v-for="entry in filteredData" v-bind:value="entry.cityId">{{ entry.cityName }}</option>
+  </select>
+</script>
+
+<!-- Our Vue app with custom component for the second dropdown -->
+<div id="vue-app">
+  <div id="search">
+    <select v-model="searchQuery">
+      <option value="1">Massachusetts</option>
+      <option value="2">New Hampshire</option>
+    </select>
+    <filtered-items v-bind:data="allData" v-bind:filter-key="searchQuery"></filtered-items>
+  </div>
+</div>
+
+
+<!-- The Vue stuff -->
+<script>
+Vue.component('filtered-items', {
+  template: '#filtered-items',
+  replace: true,
+  props: {
+    data: Array,
+    filterKey: String
+  },
+  computed: {
+    filteredData: function() {
+      var filterKey = this.filterKey;
+      var data = this.data;
+      return data.filter(function(row) {
+        return row.stateId == filterKey;
+      })
+    },
+  }
+});
+
+// the app itself
+var vueApp = new Vue({
+  el: '#vue-app',
+  data: {
+    searchQuery: '',
+    filterSelection: '',
+    allData: [{stateId: '1', stateName: 'Massachusetts', cityId: '1', cityName: 'Boston'},
+      {stateId: '1', stateName: 'Massachusetts', cityId: '2', cityName: 'Cambridge'},
+      {stateId: '1', stateName: 'Massachusetts', cityId: '3', cityName: 'Somerville'},
+      {stateId: '1', stateName: 'Massachusetts', cityId: '4', cityName: 'Chelsea'},
+      {stateId: '2', stateName: 'New Hampshire', cityId: '5', cityName: 'Nashua'},
+      {stateId: '2', stateName: 'New Hampshire', cityId: '6', cityName: 'Manchester'},
+      {stateId: '2', stateName: 'New Hampshire', cityId: '7', cityName: 'Portsmouth'}]
+  }
+})
+</script>

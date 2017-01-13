@@ -4,19 +4,17 @@
 <!-- Template for the second dropdown component -->
 <script id="filtered-items" type="text/x-template">
   <select>
-    <option v-for="entry in filteredData" v-bind:value="entry.cityId">{{ entry.cityName }}</option>
+    <option v-for="entry in filteredData">{{ entry.cityName }}</option>
   </select>
 </script>
 
 <!-- Our Vue app with custom component for the second dropdown -->
 <div id="vue-app">
-  <div id="search">
-    <select v-model="searchQuery">
-      <option value="1">Massachusetts</option>
-      <option value="2">New Hampshire</option>
-    </select>
-    <filtered-items v-bind:data="allData" v-bind:filter-key="searchQuery"></filtered-items>
-  </div>
+  <select v-model="searchQuery">
+    <option value="1">Massachusetts</option>
+    <option value="2">New Hampshire</option>
+  </select>
+  <filtered-items v-bind:data="allData" v-bind:filter-key="searchQuery"></filtered-items>
 </div>
 
 
@@ -24,7 +22,6 @@
 <script>
 Vue.component('filtered-items', {
   template: '#filtered-items',
-  replace: true,
   props: {
     data: Array,
     filterKey: String
@@ -45,7 +42,6 @@ var vueApp = new Vue({
   el: '#vue-app',
   data: {
     searchQuery: '',
-    filterSelection: '',
     allData: [{stateId: '1', stateName: 'Massachusetts', cityId: '1', cityName: 'Boston'},
       {stateId: '1', stateName: 'Massachusetts', cityId: '2', cityName: 'Cambridge'},
       {stateId: '1', stateName: 'Massachusetts', cityId: '3', cityName: 'Somerville'},
